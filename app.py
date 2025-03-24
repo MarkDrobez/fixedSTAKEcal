@@ -12,6 +12,13 @@ if 'bet_log' not in st.session_state:
 
 st.title('🎯 Optimized Betting Calculator')
 
+# Display bet log first
+st.subheader('📋 Bet Log')
+st.dataframe(st.session_state.bet_log)
+
+st.markdown("---")
+st.info(f'💰 Current Bankroll: €{st.session_state.bankroll:.2f}')
+
 # Function to calculate stake
 def calculate_stake(odds, bankroll):
     if 1.40 <= odds <= 1.60:
@@ -46,8 +53,6 @@ if st.button('Update Bankroll'):
     st.session_state.bankroll = adjust_amount
     st.success(f'✅ Bankroll updated to €{st.session_state.bankroll:.2f}')
 
-st.info(f'💰 Current Bankroll: €{st.session_state.bankroll:.2f}')
-
 # Place Bet
 if st.button('I Placed This Bet'):
     if stake <= st.session_state.bankroll:
@@ -60,8 +65,3 @@ if st.button('I Placed This Bet'):
         st.success(f'📌 Bet placed! New bankroll: €{st.session_state.bankroll:.2f}')
     else:
         st.error('❌ Insufficient funds!')
-
-# Display bet log
-st.markdown("---")
-st.subheader('📋 Bet Log')
-st.dataframe(st.session_state.bet_log)
