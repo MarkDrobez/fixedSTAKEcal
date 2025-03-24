@@ -12,12 +12,12 @@ if 'bet_log' not in st.session_state:
 
 st.title('🎯 Optimized Betting Calculator')
 
-col1, col2 = st.columns([1, 1])
+col1, col2 = st.columns([3, 2])
 
 # Left column (Compact Bet Log)
 with col1:
     st.subheader('📋 Bet & Balance Log')
-    st.dataframe(st.session_state.bet_log, height=250)
+    st.dataframe(st.session_state.bet_log, height=250, use_container_width=True)
 
 # Right column (Calculator and buttons)
 with col2:
