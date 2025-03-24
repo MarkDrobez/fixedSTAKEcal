@@ -37,7 +37,7 @@ st.info(f'💰 Current Bankroll: €{st.session_state.bankroll:.2f}')
 
 # Manual bankroll update
 new_bankroll = st.number_input('Manually Update Bankroll:', min_value=0.0, step=1.0, format="%.2f")
-if st.buttoan('Update Bankroll'):
+if st.button('Update Bankroll'):
     st.session_state.bankroll = new_bankroll
     st.success(f'🔄 Bankroll updated manually to: €{st.session_state.bankroll:.2f}')
 
