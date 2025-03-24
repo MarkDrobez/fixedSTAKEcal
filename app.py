@@ -22,7 +22,7 @@ def calculate_stake(odds, bankroll):
         return 0
 
 # Input odds
-odds = st.number_input('Enter Odds:', min_value=1.40, max_value=4.00, step=0.01, format="%.2f")
+odds = st.number_input('Enter Odds:', min_value=1.01, max_value=4.00, step=0.01, format="%.2f")
 
 # Display calculated stake
 stake = calculate_stake(odds, st.session_state.bankroll)
