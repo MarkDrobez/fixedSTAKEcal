@@ -32,14 +32,6 @@ if stake > 0:
 else:
     st.error('Odds out of range (1.40 - 4.00)')
 
-# Adjust Bankroll
-st.markdown("---")
-st.subheader('Adjust Bankroll')
-adjust_amount = st.number_input('Enter new bankroll amount:', min_value=0.0, format="%.2f")
-if st.button('Update Bankroll'):
-    st.session_state.bankroll = adjust_amount
-    st.success(f'✅ Bankroll updated to €{st.session_state.bankroll:.2f}')
-
 st.info(f'💰 Current Bankroll: €{st.session_state.bankroll:.2f}')
 
 # Place Bet
