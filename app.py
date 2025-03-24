@@ -8,7 +8,7 @@ st.title('🎯 Optimized Betting Calculator')
 
 # Function to calculate stake
 def calculate_stake(odds, bankroll):
-    if 1.40 <= odds <= 1.60:
+    if 1.01 <= odds <= 1.60:
         return bankroll * 0.025
     elif 1.61 <= odds <= 1.90:
         return bankroll * 0.02
@@ -30,7 +30,7 @@ stake = calculate_stake(odds, st.session_state.bankroll)
 if stake > 0:
     st.success(f'💸 Recommended Stake: €{stake:.2f}')
 else:
-    st.error('Odds out of range (1.40 - 4.00)')
+    st.error('Odds out of range (1.01 - 4.00)')
 
 # Display current bankroll
 st.info(f'💰 Current Bankroll: €{st.session_state.bankroll:.2f}')
