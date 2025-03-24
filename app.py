@@ -42,8 +42,9 @@ if st.button('Update Bankroll'):
 
 # Place Bet
 if st.button('I Placed This Bet'):
-    if stake <= st.session_state.bankroll:
-        st.session_state.bankroll -= stake
-        st.success(f'📌 Bet placed! New bankroll: €{st.session_state.bankroll:.2f}')
+    half_stake = stake / 2
+    if half_stake <= st.session_state.bankroll:
+        st.session_state.bankroll -= half_stake
+        st.success(f'📌 Bet placed! Half stake deducted. New bankroll: €{st.session_state.bankroll:.2f}')
     else:
         st.error('❌ Insufficient funds!')
