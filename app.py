@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-from datetime import datetime
 
 # Initialize bankroll
 if 'bankroll' not in st.session_state:
@@ -8,16 +7,16 @@ if 'bankroll' not in st.session_state:
 
 # Initialize bet log
 if 'bet_log' not in st.session_state:
-    st.session_state.bet_log = pd.DataFrame(columns=['Timestamp', 'Type', 'Odds', 'Stake/Adjustment', 'Remaining Bankroll'])
+    st.session_state.bet_log = pd.DataFrame(columns=['Action', 'Odds', 'Amount', 'Bankroll After'])
 
 st.title('🎯 Optimized Betting Calculator')
 
-col1, col2 = st.columns([3, 2])
+col1, col2 = st.columns([2, 1])
 
-# Left column (Compact Bet Log)
+# Redesigned Compact Bet Log
 with col1:
-    st.subheader('📋 Bet & Balance Log')
-    st.dataframe(st.session_state.bet_log, height=250, use_container_width=True)
+    st.subheader('📋 Bet Log')
+    st.table(st.session_state.bet_log.head(10))
 
 # Right column (Calculator and buttons)
 with col2:
@@ -46,11 +45,10 @@ with col2:
         if st.button('I Placed This Bet'):
             if stake <= st.session_state.bankroll:
                 st.session_state.bankroll -= stake
-                new_bet = {'Timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                           'Type': 'Bet Placed',
+                new_bet = {'Action': 'Bet',
                            'Odds': odds,
-                           'Stake/Adjustment': f'-€{stake:.1f}',
-                           'Remaining Bankroll': st.session_state.bankroll}
+                           'Amount': f'-€{stake:.1f}',
+                           'Bankroll After': f'€{st.session_state.bankroll:.2f}'}
                 st.session_state.bet_log = pd.concat([pd.DataFrame([new_bet]), st.session_state.bet_log], ignore_index=True)
                 st.success('📌 Bet placed!')
             else:
@@ -63,11 +61,11 @@ with col2:
     adjust_amount = st.number_input('New bankroll:', min_value=0.0, format="%.2f")
     if st.button('Update Bankroll'):
         adjustment = adjust_amount - st.session_state.bankroll
+        action_type = 'Deposit' if adjustment >= 0 else 'Withdrawal'
         st.session_state.bankroll = adjust_amount
-        adjustment_entry = {'Timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                            'Type': 'Adjustment',
+        adjustment_entry = {'Action': action_type,
                             'Odds': '-',
-                            'Stake/Adjustment': f'{"+" if adjustment >=0 else "-"}€{abs(adjustment):.2f}',
-                            'Remaining Bankroll': st.session_state.bankroll}
+                            'Amount': f'{"+" if adjustment >=0 else "-"}€{abs(adjustment):.2f}',
+                            'Bankroll After': f'€{st.session_state.bankroll:.2f}'}
         st.session_state.bet_log = pd.concat([pd.DataFrame([adjustment_entry]), st.session_state.bet_log], ignore_index=True)
         st.success('✅ Bankroll updated!')
