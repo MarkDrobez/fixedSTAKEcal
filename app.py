@@ -16,7 +16,7 @@ def calculate_stake(odds, bankroll):
         return bankroll * 0.015
     elif 2.21 <= odds <= 2.80:
         return bankroll * 0.01
-    elif 2.81 <= odds <= 4.00:
+    elif 2.80 < odds <= 4.00:
         return bankroll * 0.0075
     else:
         return 0
