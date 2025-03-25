@@ -1,5 +1,6 @@
 import streamlit as st
 
+# Function to calculate bet sizes based on bankroll
 def calculate_bet(bankroll):
     odds_ranges = {
         (1.01, 1.60): 0.025,
@@ -11,19 +12,24 @@ def calculate_bet(bankroll):
     
     bet_sizes = {}
     for (low, high), percentage in odds_ranges.items():
-        bet_sizes[f"{low} - {high}"] = bankroll * percentage
+        bet_sizes[f"{low:.2f} - {high:.2f}"] = bankroll * percentage
     
     return bet_sizes
 
-# Streamlit App
-st.title("Bet Size Calculator")
+# Streamlit App UI
+st.set_page_config(page_title="Bet Size Calculator", page_icon="🎲", layout="centered")
+st.title("🎯 Bet Size Calculator")
+st.markdown("Use this tool to calculate your optimal bet sizes based on your bankroll.")
 
 # User Input
-bankroll = st.number_input("Enter your bankroll (€):", min_value=0.0, format="%.2f")
+st.sidebar.header("Input Settings")
+bankroll = st.sidebar.number_input("💰 Enter your bankroll (€):", min_value=0.0, format="%.2f")
 
 # Display Bet Sizes Automatically
 if bankroll > 0:
+    st.subheader("📊 Recommended Bet Sizes for Each Odds Range:")
     bet_sizes = calculate_bet(bankroll)
-    st.subheader("Recommended Bet Sizes for Each Odds Range:")
-    for odds_range, amount in bet_sizes.items():
-        st.write(f"{odds_range}: €{amount:.2f}")
+    
+    st.table({"Odds Range": list(bet_sizes.keys()), "Bet Amount (€)": [f"{amount:.2f}" for amount in bet_sizes.values()]})
+else:
+    st.info("Enter your bankroll to calculate bet sizes.")
